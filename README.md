@@ -138,8 +138,10 @@ Create a `.env` file in the `backend/` directory with the following keys:
 | :--------------------- | :-------------------------------------------------------------------- | :--------------------------------------------------- | :------------------------------------- |
 | `PORT`                 | The port the backend server runs on                                   | `5000`                                               | Optional (defaults to 5000)            |
 | `DATABASE_URL`         | SQLite database file path                                             | `sqlite://./database.sqlite` or `./data/nalarupa.db` | Optional                               |
+| `AI_PROVIDER`           | The AI provider to use (`gemini` or `pollinations`)                   | `gemini`                                             | Optional (defaults to `gemini` if key present) |
 | `GEMINI_API_KEY`       | Gemini API key for curriculum-to-prompt optimization and SFW checking | `AIzaSy...`                                          | **Yes** (if using Gemini LLM features) |
 | `POLLINATIONS_API_URL` | Image generator endpoint (if custom)                                  | `https://image.pollinations.ai/prompt/`              | Optional                               |
+| `POLLINATIONS_API_KEY` | Optional API key for Pollinations (removes rate limits)                | `sk_...`                                             | Optional                               |
 | `NODE_ENV`             | Environment mode                                                      | `development`                                        | Optional                               |
 
 ### Frontend (`frontend/.env`)

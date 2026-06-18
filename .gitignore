@@ -109,7 +109,9 @@ dist
 *.sqlite3
 *.sqlite-journal
 backend/data/*.db
+backend/data/*.db*
 backend/data/*.sqlite
+backend/public/uploads/*
 
 # OS Metadata
 .DS_Store

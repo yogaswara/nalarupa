@@ -1,0 +1,45 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/infrastructure/config/server.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "start": "node src/infrastructure/config/server.js",
+    "dev": "nodemon src/infrastructure/config/server.js",
+    "db:init": "node -e \"require('./src/infrastructure/config/db').initializeDatabase()\"",
+    "test": "jest"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "roots": [
+      "<rootDir>/src",
+      "<rootDir>/tests"
+    ],
+    "modulePaths": [
+      "<rootDir>/src"
+    ],
+    "moduleNameMapper": {
+      "^uuid$": "<rootDir>/tests/mocks/uuid.js"
+    }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^30.4.2",
+    "nodemon": "^3.1.14"
+  },
+  "dependencies": {
+    "@google/genai": "^2.8.0",
+    "axios": "^1.18.0",
+    "better-sqlite3": "^12.11.1",
+    "cors": "^2.8.5",
+    "dotenv": "^17.4.2",
+    "express": "^5.1.0",
+    "path": "^0.12.7",
+    "uuid": "^14.0.0"
+  }
+}
