@@ -10,9 +10,9 @@ class SqliteTaskRepository extends TaskRepository {
 
   async create(task) {
     const stmt = this.db.prepare(
-      'INSERT INTO tasks (id, curriculumText, style, userId, status, createdAt) VALUES (?, ?, ?, ?, ?, ?)'
+      'INSERT INTO tasks (id, curriculumText, style, userId, status, createdAt, parentId) VALUES (?, ?, ?, ?, ?, ?, ?)'
     );
-    stmt.run(task.id, task.curriculumText, task.style, task.userId, task.status, task.createdAt);
+    stmt.run(task.id, task.curriculumText, task.style, task.userId, task.status, task.createdAt, task.parentId);
     return task;
   }
 
@@ -34,9 +34,9 @@ class SqliteTaskRepository extends TaskRepository {
     const task = await this.getById(taskId);
     if (task) {
       const galleryStmt = this.db.prepare(
-        'INSERT INTO gallery (id, userId, originalText, imageUrl, style, createdAt) VALUES (?, ?, ?, ?, ?, ?)'
+        'INSERT INTO gallery (id, userId, originalText, imageUrl, style, createdAt, parentId) VALUES (?, ?, ?, ?, ?, ?, ?)'
       );
-      galleryStmt.run(task.id, task.userId, task.curriculumText, task.imageUrl, task.style, task.createdAt);
+      galleryStmt.run(task.id, task.userId, task.curriculumText, task.imageUrl, task.style, task.createdAt, task.parentId);
     }
     return this.getById(taskId);
   }
@@ -64,7 +64,8 @@ class SqliteTaskRepository extends TaskRepository {
       row.status,
       row.imageUrl,
       row.errorMessage,
-      row.createdAt
+      row.createdAt,
+      row.parentId
     );
   }
 

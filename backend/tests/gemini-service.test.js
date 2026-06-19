@@ -1,6 +1,8 @@
 const fs = require('fs/promises');
 const path = require('path');
 
+const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
 // Mock @google/genai BEFORE requiring GeminiService
 const mockGenerateContent = jest.fn();
 jest.mock('@google/genai', () => {
@@ -32,7 +34,12 @@ describe('GeminiService', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    consoleErrorSpy.mockClear();
     geminiService = new GeminiService();
+  });
+
+  afterAll(() => {
+    consoleErrorSpy.mockRestore();
   });
 
   describe('optimizePrompt', () => {

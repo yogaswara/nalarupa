@@ -67,8 +67,9 @@ class TaskController {
   async reGenerateImage(req, res) {
     try {
       const { taskId } = req.params;
+      const { text } = req.body || {};
       const visitorId = resolveVisitorId(req, res);
-      const task = await reGenerateImageUseCase.execute(taskId, visitorId);
+      const task = await reGenerateImageUseCase.execute(taskId, visitorId, text);
       res.status(202).json({ taskId: task.id, status: task.status, sourceTaskId: taskId });
     } catch (error) {
       const statusCode = error.message === 'Task not found.' ? 404 : 400;

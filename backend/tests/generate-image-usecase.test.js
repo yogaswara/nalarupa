@@ -1,3 +1,4 @@
+const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
 const GenerateImageUseCase = require('../src/usecases/generate-image-usecase');
 const Task = require('../src/domain/entities/task');
@@ -22,6 +23,11 @@ describe('GenerateImageUseCase', () => {
     };
     generateImageUseCase = new GenerateImageUseCase(mockTaskRepository, mockGeminiService);
     jest.clearAllMocks();
+    consoleErrorSpy.mockClear();
+  });
+
+  afterAll(() => {
+    consoleErrorSpy.mockRestore();
   });
 
   describe('execute', () => {

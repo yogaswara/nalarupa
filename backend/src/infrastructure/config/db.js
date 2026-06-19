@@ -73,6 +73,8 @@ const initializeDatabase = () => {
 
   ensureColumn('tasks', 'userId TEXT');
   ensureColumn('gallery', 'userId TEXT');
+  ensureColumn('tasks', 'parentId TEXT');
+  ensureColumn('gallery', 'parentId TEXT');
 
   console.log('Database initialized successfully.');
 };

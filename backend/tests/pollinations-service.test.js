@@ -1,3 +1,5 @@
+const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
 const PollinationsService = require('../src/infrastructure/services/pollinations-service');
 const axios = require('axios');
 const fs = require('fs/promises');
@@ -13,9 +15,14 @@ describe('PollinationsService', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    consoleErrorSpy.mockClear();
     service = new PollinationsService();
     process.env.POLLINATIONS_API_URL = '';
     process.env.POLLINATIONS_API_KEY = '';
+  });
+
+  afterAll(() => {
+    consoleErrorSpy.mockRestore();
   });
 
   describe('optimizePrompt', () => {

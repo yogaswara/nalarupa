@@ -1,3 +1,5 @@
+const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+
 const TaskController = require('../src/interfaces/controllers/task-controller');
 const GenerateImageUseCase = require('../src/usecases/generate-image-usecase');
 const ReGenerateImageUseCase = require('../src/usecases/regenerate-image-usecase');
@@ -20,6 +22,10 @@ describe('TaskController', () => {
       json: jest.fn(),
     };
     jest.clearAllMocks();
+  });
+
+  afterAll(() => {
+    consoleWarnSpy.mockRestore();
   });
 
   describe('generateImage', () => {
@@ -87,7 +93,7 @@ describe('TaskController', () => {
 
       await TaskController.reGenerateImage(req, res);
 
-      expect(ReGenerateImageUseCase.prototype.execute).toHaveBeenCalledWith('source-123', 'visitor-1');
+      expect(ReGenerateImageUseCase.prototype.execute).toHaveBeenCalledWith('source-123', 'visitor-1', undefined);
       expect(res.status).toHaveBeenCalledWith(202);
       expect(res.json).toHaveBeenCalledWith({
         taskId: 'new-123',
@@ -104,7 +110,7 @@ describe('TaskController', () => {
 
       await TaskController.reGenerateImage(req, res);
 
-      expect(ReGenerateImageUseCase.prototype.execute).toHaveBeenCalledWith('source-123', 'visitor-2');
+      expect(ReGenerateImageUseCase.prototype.execute).toHaveBeenCalledWith('source-123', 'visitor-2', undefined);
       expect(res.status).toHaveBeenCalledWith(404);
       expect(res.json).toHaveBeenCalledWith({ error: 'Task not found.' });
     });

@@ -4,7 +4,7 @@ class ReGenerateImageUseCase {
     this.generateImageUseCase = generateImageUseCase;
   }
 
-  async execute(sourceTaskId, visitorId) {
+  async execute(sourceTaskId, visitorId, text = null) {
     if (!sourceTaskId) {
       throw new Error('Task ID is required.');
     }
@@ -16,9 +16,11 @@ class ReGenerateImageUseCase {
     if (!sourceTask) {
       throw new Error('Task not found.');
     }
-    const text = sourceTask.curriculumText.trim();
+    
+    const finalText = text ? text.trim() : sourceTask.curriculumText.trim();
+    const rootParentId = sourceTask.parentId || sourceTask.id;
 
-    return this.generateImageUseCase.execute(text, sourceTask.style, visitorId);
+    return this.generateImageUseCase.execute(finalText, sourceTask.style, visitorId, rootParentId);
   }
 }
 

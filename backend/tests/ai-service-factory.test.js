@@ -1,3 +1,5 @@
+const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+
 const AIServiceFactory = require('../src/infrastructure/services/ai-service-factory');
 const GeminiService = require('../src/infrastructure/services/gemini-service');
 const PollinationsService = require('../src/infrastructure/services/pollinations-service');
@@ -8,8 +10,13 @@ jest.mock('../src/infrastructure/services/pollinations-service');
 describe('AIServiceFactory', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    consoleWarnSpy.mockClear();
     process.env.AI_PROVIDER = '';
     process.env.GEMINI_API_KEY = '';
+  });
+
+  afterAll(() => {
+    consoleWarnSpy.mockRestore();
   });
 
   it('should return PollinationsService if AI_PROVIDER is pollinations', () => {
@@ -33,5 +40,8 @@ describe('AIServiceFactory', () => {
   it('should fall back to PollinationsService if AI_PROVIDER is empty and key is missing', () => {
     const service = AIServiceFactory.create();
     expect(service).toBeInstanceOf(PollinationsService);
+    expect(consoleWarnSpy).toHaveBeenCalledWith(
+      expect.stringContaining('GEMINI_API_KEY is not set in environment variables. Falling back to PollinationsService.')
+    );
   });
 });

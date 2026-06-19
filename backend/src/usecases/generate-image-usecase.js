@@ -53,7 +53,7 @@ class GenerateImageUseCase {
     this.aiService = aiService;
   }
 
-  async execute(curriculumText, style, visitorId = null) {
+  async execute(curriculumText, style, visitorId = null, parentId = null) {
     if (!curriculumText || curriculumText.length > 1000) {
       throw new Error('Curriculum text must be between 1 and 1000 characters.');
     }
@@ -62,7 +62,7 @@ class GenerateImageUseCase {
     }
 
     const taskId = uuidv4();
-    const task = new Task(taskId, curriculumText, style, visitorId);
+    const task = new Task(taskId, curriculumText, style, visitorId, null, 'pending', null, null, new Date().toISOString(), parentId);
     await this.taskRepository.create(task);
 
     // Asynchronously process the image generation

@@ -30,7 +30,29 @@ describe('ReGenerateImageUseCase', () => {
     expect(generateImageUseCase.execute).toHaveBeenCalledWith(
       'Photosynthesis lesson',
       'Technical Diagram',
-      'visitor-1'
+      'visitor-1',
+      'source-1'
+    );
+    expect(result).toEqual({ id: 'new-task-1', status: 'pending' });
+  });
+
+  it('should create a new generation task from a source task with custom curriculum text', async () => {
+    taskRepository.getByIdForUser.mockResolvedValue({
+      id: 'source-1',
+      curriculumText: 'Photosynthesis lesson',
+      style: 'Technical Diagram',
+      userId: 'visitor-1',
+    });
+    generateImageUseCase.execute.mockResolvedValue({ id: 'new-task-1', status: 'pending' });
+
+    const result = await reGenerateImageUseCase.execute('source-1', 'visitor-1', 'Custom lesson text');
+
+    expect(taskRepository.getByIdForUser).toHaveBeenCalledWith('source-1', 'visitor-1');
+    expect(generateImageUseCase.execute).toHaveBeenCalledWith(
+      'Custom lesson text',
+      'Technical Diagram',
+      'visitor-1',
+      'source-1'
     );
     expect(result).toEqual({ id: 'new-task-1', status: 'pending' });
   });
@@ -77,7 +99,7 @@ describe('ReGenerateImageUseCase', () => {
     });
     expect(taskRepository.getByIdForUser).toHaveBeenCalledWith('task-a', 'visitor-a');
     expect(taskRepository.getByIdForUser).toHaveBeenCalledWith('task-b', 'visitor-b');
-    expect(generateImageUseCase.execute).toHaveBeenCalledWith('Lesson for visitor-a', 'Edu-Cartoon', 'visitor-a');
-    expect(generateImageUseCase.execute).toHaveBeenCalledWith('Lesson for visitor-b', 'Historical Sketch', 'visitor-b');
+    expect(generateImageUseCase.execute).toHaveBeenCalledWith('Lesson for visitor-a', 'Edu-Cartoon', 'visitor-a', 'task-a');
+    expect(generateImageUseCase.execute).toHaveBeenCalledWith('Lesson for visitor-b', 'Historical Sketch', 'visitor-b', 'task-b');
   });
 });

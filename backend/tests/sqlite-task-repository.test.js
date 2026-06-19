@@ -22,11 +22,11 @@ describe('SqliteTaskRepository', () => {
 
   describe('create', () => {
     it('should create a new task', async () => {
-      const task = new Task('1', 'Text', 'Style', 'user-1', null, 'pending', null, null, Date.now());
+      const task = new Task('1', 'Text', 'Style', 'user-1', null, 'pending', null, null, Date.now(), 'parent-123');
       await repository.create(task);
 
-      expect(db.prepare).toHaveBeenCalledWith('INSERT INTO tasks (id, curriculumText, style, userId, status, createdAt) VALUES (?, ?, ?, ?, ?, ?)');
-      expect(db.run).toHaveBeenCalledWith(task.id, task.curriculumText, task.style, task.userId, task.status, task.createdAt);
+      expect(db.prepare).toHaveBeenCalledWith('INSERT INTO tasks (id, curriculumText, style, userId, status, createdAt, parentId) VALUES (?, ?, ?, ?, ?, ?, ?)');
+      expect(db.run).toHaveBeenCalledWith(task.id, task.curriculumText, task.style, task.userId, task.status, task.createdAt, task.parentId);
     });
   });
 
@@ -35,9 +35,9 @@ describe('SqliteTaskRepository', () => {
       const taskId = '1';
       const status = 'completed';
       const errorMessage = null;
-      const mockTask = new Task(taskId, 'Text', 'Style', 'user-1', null, status, null, null, Date.now());
+      const mockTask = new Task(taskId, 'Text', 'Style', 'user-1', null, status, null, null, Date.now(), 'parent-123');
 
-      db.get.mockReturnValueOnce({ id: taskId, curriculumText: 'Text', style: 'Style', userId: 'user-1', status: status, createdAt: Date.now() });
+      db.get.mockReturnValueOnce({ id: taskId, curriculumText: 'Text', style: 'Style', userId: 'user-1', status: status, createdAt: Date.now(), parentId: 'parent-123' });
 
       const result = await repository.updateStatus(taskId, status, errorMessage);
 
@@ -52,16 +52,16 @@ describe('SqliteTaskRepository', () => {
       const taskId = '1';
       const imageUrl = 'http://example.com/image.png';
       const optimizedPrompt = 'Optimized Text';
-      const mockTask = new Task(taskId, 'Text', 'Style', 'user-1', optimizedPrompt, 'completed', imageUrl, null, Date.now());
+      const mockTask = new Task(taskId, 'Text', 'Style', 'user-1', optimizedPrompt, 'completed', imageUrl, null, Date.now(), 'parent-123');
 
-      db.get.mockReturnValue({ id: taskId, curriculumText: 'Text', style: 'Style', userId: 'user-1', optimizedPrompt: optimizedPrompt, status: 'completed', imageUrl: imageUrl, createdAt: Date.now() });
+      db.get.mockReturnValue({ id: taskId, curriculumText: 'Text', style: 'Style', userId: 'user-1', optimizedPrompt: optimizedPrompt, status: 'completed', imageUrl: imageUrl, createdAt: Date.now(), parentId: 'parent-123' });
 
       const result = await repository.updateResult(taskId, imageUrl, optimizedPrompt);
 
       expect(db.prepare).toHaveBeenCalledWith('UPDATE tasks SET imageUrl = ?, optimizedPrompt = ?, status = \'completed\' WHERE id = ?');
       expect(db.run).toHaveBeenCalledWith(imageUrl, optimizedPrompt, taskId);
-      expect(db.prepare).toHaveBeenCalledWith('INSERT INTO gallery (id, userId, originalText, imageUrl, style, createdAt) VALUES (?, ?, ?, ?, ?, ?)');
-      expect(db.run).toHaveBeenCalledWith(taskId, mockTask.userId, mockTask.curriculumText, mockTask.imageUrl, mockTask.style, mockTask.createdAt);
+      expect(db.prepare).toHaveBeenCalledWith('INSERT INTO gallery (id, userId, originalText, imageUrl, style, createdAt, parentId) VALUES (?, ?, ?, ?, ?, ?, ?)');
+      expect(db.run).toHaveBeenCalledWith(taskId, mockTask.userId, mockTask.curriculumText, mockTask.imageUrl, mockTask.style, mockTask.createdAt, mockTask.parentId);
       expect(result).toEqual(mockTask);
     });
   });
@@ -69,14 +69,14 @@ describe('SqliteTaskRepository', () => {
   describe('getById', () => {
     it('should return a task by ID', async () => {
       const taskId = '1';
-      const mockRow = { id: taskId, curriculumText: 'Text', style: 'Style', userId: 'user-1', optimizedPrompt: 'Optimized', status: 'pending', imageUrl: null, errorMessage: null, createdAt: Date.now() };
+      const mockRow = { id: taskId, curriculumText: 'Text', style: 'Style', userId: 'user-1', optimizedPrompt: 'Optimized', status: 'pending', imageUrl: null, errorMessage: null, createdAt: Date.now(), parentId: 'parent-123' };
       db.get.mockReturnValueOnce(mockRow);
 
       const result = await repository.getById(taskId);
 
       expect(db.prepare).toHaveBeenCalledWith('SELECT * FROM tasks WHERE id = ?');
       expect(db.get).toHaveBeenCalledWith(taskId);
-      expect(result).toEqual(new Task(mockRow.id, mockRow.curriculumText, mockRow.style, mockRow.userId, mockRow.optimizedPrompt, mockRow.status, mockRow.imageUrl, mockRow.errorMessage, mockRow.createdAt));
+      expect(result).toEqual(new Task(mockRow.id, mockRow.curriculumText, mockRow.style, mockRow.userId, mockRow.optimizedPrompt, mockRow.status, mockRow.imageUrl, mockRow.errorMessage, mockRow.createdAt, mockRow.parentId));
     });
 
     it('should return null if task not found', async () => {
@@ -103,6 +103,7 @@ describe('SqliteTaskRepository', () => {
         imageUrl: 'url',
         errorMessage: null,
         createdAt: Date.now(),
+        parentId: 'parent-123',
       };
       db.get.mockReturnValueOnce(mockRow);
 
@@ -120,7 +121,8 @@ describe('SqliteTaskRepository', () => {
           mockRow.status,
           mockRow.imageUrl,
           mockRow.errorMessage,
-          mockRow.createdAt
+          mockRow.createdAt,
+          mockRow.parentId
         )
       );
     });
