@@ -1,6 +1,11 @@
-FROM node:18-alpine
+FROM node:20-alpine
 
 WORKDIR /app
+
+RUN apk add --no-cache \
+    python3 \
+    make \
+    g++
 
 # Copy package.json and package-lock.json if they exist
 COPY package*.json ./
@@ -12,7 +17,7 @@ RUN if [ -f package.json ]; then npm install; fi
 COPY . .
 
 # Expose the API port
-EXPOSE 5000
+EXPOSE 5011
 
 # Start the development server
 CMD ["npm", "run", "dev"]

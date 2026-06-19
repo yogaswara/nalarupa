@@ -7,10 +7,10 @@ services:
       dockerfile: Dockerfile
     container_name: nalarupa_backend
     ports:
-      - "5000:5000"
+      - "5011:5011"
     environment:
       - NODE_ENV=development
-      - PORT=5000
+      - PORT=5011
     env_file:
       - ./backend/.env
     volumes:
@@ -27,7 +27,7 @@ services:
       - "5173:5173"
     environment:
       - CHOKIDAR_USEPOLLING=true
-      - VITE_API_URL=http://localhost:5000
+      - VITE_API_PROXY_TARGET=http://backend:5011
       - HOST=0.0.0.0
     env_file:
       - ./frontend/.env
