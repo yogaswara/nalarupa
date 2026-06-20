@@ -85,7 +85,7 @@ The frontend is a modern **React** application.
 
 4. Verify that the API URL points to your backend:
    ```env
-   VITE_API_URL=http://localhost:5000
+   VITE_API_URL=http://localhost:5011
    ```
 
 5. Start the frontend development server:
