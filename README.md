@@ -60,7 +60,7 @@ The backend is powered by **ExpressJS** and uses **SQLite** for metadata persist
    ```bash
    npm run dev
    ```
-   The backend should now be running, typically on `http://localhost:5000`.
+   The backend should now be running, typically on `http://localhost:5011`.
 
 ---
 
@@ -118,7 +118,7 @@ As an alternative to manual installation, you can run Nalarupa using Docker and 
 
 3. **Access the Application**
    - Frontend: [http://localhost:5173](http://localhost:5173)
-   - Backend API: [http://localhost:5000](http://localhost:5000)
+   - Backend API: [http://localhost:5011](http://localhost:5011)
 
 4. **Stop the Application**
    To stop the containers and services, run:
@@ -134,15 +134,15 @@ As an alternative to manual installation, you can run Nalarupa using Docker and 
 
 Create a `.env` file in the `backend/` directory with the following keys:
 
-| Variable               | Description                                                           | Example / Default                                    | Required?                              |
-| :--------------------- | :-------------------------------------------------------------------- | :--------------------------------------------------- | :------------------------------------- |
-| `PORT`                 | The port the backend server runs on                                   | `5000`                                               | Optional (defaults to 5000)            |
-| `DATABASE_URL`         | SQLite database file path                                             | `sqlite://./database.sqlite` or `./data/nalarupa.db` | Optional                               |
-| `AI_PROVIDER`           | The AI provider to use (`gemini` or `pollinations`)                   | `gemini`                                             | Optional (defaults to `gemini` if key present) |
-| `GEMINI_API_KEY`       | Gemini API key for curriculum-to-prompt optimization and SFW checking | `AIzaSy...`                                          | **Yes** (if using Gemini LLM features) |
-| `POLLINATIONS_API_URL` | Image generator endpoint (if custom)                                  | `https://gen.pollinations.ai/image/`              | Optional                               |
-| `POLLINATIONS_API_KEY` | Optional API key for Pollinations (removes rate limits)                | `sk_...`                                             | Optional                               |
-| `NODE_ENV`             | Environment mode                                                      | `development`                                        | Optional                               |
+| Variable               | Description                                                           | Example / Default                                    | Required?                                      |
+| :--------------------- | :-------------------------------------------------------------------- | :--------------------------------------------------- | :--------------------------------------------- |
+| `PORT`                 | The port the backend server runs on                                   | `5011`                                               | Optional (defaults to 5011)                    |
+| `DATABASE_URL`         | SQLite database file path                                             | `sqlite://./database.sqlite` or `./data/nalarupa.db` | Optional                                       |
+| `AI_PROVIDER`          | The AI provider to use (`gemini` or `pollinations`)                   | `gemini`                                             | Optional (defaults to `gemini` if key present) |
+| `GEMINI_API_KEY`       | Gemini API key for curriculum-to-prompt optimization and SFW checking | `AIzaSy...`                                          | **Yes** (if using Gemini LLM features)         |
+| `POLLINATIONS_API_URL` | Image generator endpoint (if custom)                                  | `https://gen.pollinations.ai/image/`                 | Optional                                       |
+| `POLLINATIONS_API_KEY` | Optional API key for Pollinations (removes rate limits)               | `sk_...`                                             | Optional                                       |
+| `NODE_ENV`             | Environment mode                                                      | `development`                                        | Optional                                       |
 
 ### Frontend (`frontend/.env`)
 
@@ -150,7 +150,7 @@ Create a `.env` file in the `frontend/` directory with the following keys:
 
 | Variable       | Description                     | Example / Default       | Required? |
 | :------------- | :------------------------------ | :---------------------- | :-------- |
-| `VITE_API_URL` | The base URL of the backend API | `http://localhost:5000` | **Yes**   |
+| `VITE_API_URL` | The base URL of the backend API | `http://localhost:5011` | **Yes**   |
 
 ---
 
