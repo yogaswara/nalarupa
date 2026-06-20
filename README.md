@@ -148,10 +148,9 @@ Create a `.env` file in the `backend/` directory with the following keys:
 
 Create a `.env` file in the `frontend/` directory with the following keys:
 
-| Variable                | Description                                                                         | Example / Default       | Required? |
-| :---------------------- | :---------------------------------------------------------------------------------- | :---------------------- | :-------- |
-| `VITE_API_URL`          | The base URL of the backend API                                                     | `http://localhost:5011` | **Yes**   |
-| `VITE_API_PROXY_TARGET` | The base URL of the backend API used by the Vite dev proxy for `/v1` and `/uploads` | `http://localhost:5011` | **Yes**   |
+| Variable       | Description                     | Example / Default       | Required? |
+| :------------- | :------------------------------ | :---------------------- | :-------- |
+| `VITE_API_URL` | The base URL of the backend API | `http://localhost:5011` | **Yes**   |
 
 ---
 

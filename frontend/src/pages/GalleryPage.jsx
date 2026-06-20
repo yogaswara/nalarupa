@@ -58,8 +58,6 @@ export default function GalleryPage() {
   const [activeRegenGroupId, setActiveRegenGroupId] = useState(null);
   const [regenTextMap, setRegenTextMap] = useState({});
 
-  console.log('DEBUG: galleryItems is:', galleryItems);
-
   useEffect(() => {
     let cancelled = false;
 
@@ -165,7 +163,7 @@ export default function GalleryPage() {
       const completedTask = await waitForRegeneratedTask(response.taskId);
       const items = await fetchGallery();
       setGalleryItems(items);
-      
+
       // Auto-select the newly generated version
       setSelectedVersionMap((prev) => ({
         ...prev,
@@ -192,9 +190,8 @@ export default function GalleryPage() {
 
         <section className="mb-12">
           <div
-            className={`flex flex-col md:flex-row gap-4 items-center bg-surface-container-low p-4 rounded-xl border border-outline-variant shadow-sm transition-all ${
-              searchFocused ? 'ring-2 ring-primary-fixed-dim' : ''
-            }`}
+            className={`flex flex-col md:flex-row gap-4 items-center bg-surface-container-low p-4 rounded-xl border border-outline-variant shadow-sm transition-all ${searchFocused ? 'ring-2 ring-primary-fixed-dim' : ''
+              }`}
           >
             <div className="relative flex-1 w-full">
               <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
