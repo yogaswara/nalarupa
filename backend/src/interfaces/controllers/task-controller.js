@@ -58,9 +58,18 @@ class TaskController {
       const { text, style } = req.body;
       const visitorId = resolveVisitorId(req, res);
       const task = await generateImageUseCase.execute(text, style, visitorId);
-      res.status(202).json({ taskId: task.id, status: task.status });
+      res.status(202).json({
+        "success": true,
+        "message": "Task created successfully",
+        "data": {
+          taskId: task.id, status: task.status
+        }
+      });
     } catch (error) {
-      res.status(400).json({ error: error.message });
+      res.status(400).json({
+        "success": false,
+        "message": error.message
+      });
     }
   }
 
@@ -70,10 +79,21 @@ class TaskController {
       const { text } = req.body || {};
       const visitorId = resolveVisitorId(req, res);
       const task = await reGenerateImageUseCase.execute(taskId, visitorId, text);
-      res.status(202).json({ taskId: task.id, status: task.status, sourceTaskId: taskId });
+      res.status(202).json({
+        "success": true,
+        "message": "Task created successfully",
+        "data": {
+          taskId: task.id,
+          status: task.status,
+          sourceTaskId: taskId
+        }
+      });
     } catch (error) {
       const statusCode = error.message === 'Task not found.' ? 404 : 400;
-      res.status(statusCode).json({ error: error.message });
+      res.status(statusCode).json({
+        "success": false,
+        "message": error.message
+      });
     }
   }
 
@@ -81,9 +101,16 @@ class TaskController {
     try {
       const { taskId } = req.params;
       const task = await getTaskStatusUseCase.execute(taskId);
-      res.status(200).json(task);
+      res.status(200).json({
+        "success": true,
+        "message": "Task status retrieved successfully",
+        "data": task
+      });
     } catch (error) {
-      res.status(404).json({ error: error.message });
+      res.status(404).json({
+        "success": false,
+        "message": error.message
+      });
     }
   }
 
@@ -91,9 +118,16 @@ class TaskController {
     try {
       const visitorId = resolveVisitorId(req, res);
       const galleryItems = await taskRepository.getAll(visitorId);
-      res.status(200).json(galleryItems);
+      res.status(200).json({
+        "success": true,
+        "message": "Gallery items retrieved successfully",
+        "data": galleryItems
+      });
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      res.status(500).json({
+        "success": false,
+        "message": error.message
+      });
     }
   }
 }

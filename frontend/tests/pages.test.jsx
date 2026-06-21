@@ -160,7 +160,7 @@ describe('frontend pages', () => {
     // By default, version 2 (latest) should be displayed
     await waitFor(() => expect(screen.getByRole('heading', { name: /Version 2 Title/i })).toBeInTheDocument());
     expect(screen.getByText('Version 2 Text', { selector: 'p' })).toBeInTheDocument();
-    expect(screen.getByRole('img')).toHaveAttribute('src', '/uploads/version2.png');
+    expect(screen.getByAltText('Version 2 Title')).toHaveAttribute('src', '/uploads/version2.png');
 
     // Click version 1 thumbnail to switch version
     const v1Btn = screen.getByTitle(/Switch to Version 1/i);
@@ -169,7 +169,7 @@ describe('frontend pages', () => {
     // Now, version 1 should be displayed
     expect(screen.getByRole('heading', { name: /Version 1 Title/i })).toBeInTheDocument();
     expect(screen.getByText('Version 1 Text', { selector: 'p' })).toBeInTheDocument();
-    expect(screen.getByRole('img')).toHaveAttribute('src', '/uploads/version1.png');
+    expect(screen.getByAltText('Version 1 Title')).toHaveAttribute('src', '/uploads/version1.png');
   });
 
   it('submits inline regeneration request with modified curriculum text', async () => {
@@ -235,7 +235,7 @@ describe('frontend pages', () => {
       expect(regenerateVisual).toHaveBeenCalledWith('1', 'Eukaryotic cells with nucleus')
     );
     await waitFor(() =>
-      expect(screen.getByRole('img')).toHaveAttribute('src', '/uploads/cell-updated.png')
+      expect(screen.getByAltText('Cell Organelles')).toHaveAttribute('src', '/uploads/cell-updated.png')
     );
   });
 });

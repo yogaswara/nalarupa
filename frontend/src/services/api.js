@@ -27,7 +27,7 @@ async function apiRequest(path, options = {}) {
     throw new Error(message);
   }
 
-  return payload;
+  return payload.data;
 }
 
 export function generateVisual(payload) {
