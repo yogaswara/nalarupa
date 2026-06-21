@@ -25,6 +25,12 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
         },
       },
+      allowedHosts: [
+        'nalarupa.web.id',
+        'www.nalarupa.web.id',
+        'nalarupa.my.id',
+        'www.nalarupa.my.id',
+      ],
     },
     test: {
       environment: 'jsdom',
